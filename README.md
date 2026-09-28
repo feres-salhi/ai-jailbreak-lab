@@ -10,6 +10,15 @@ number-one security risk for LLM applications.
 
 ---
 
+## Architecture
+
+![Architecture diagram](images/architecture.png)
+
+The API key is loaded from a local `.env` file that is **excluded from version control** via
+`.gitignore`, so the secret credential never enters the repository.
+
+---
+
 ## What this project does
 
 `SupportBot` is a customer-service chatbot (built on the Anthropic API) that is given a secret
@@ -18,37 +27,6 @@ password in its system prompt and told never to reveal it. The project has three
 1. **Attack** — try to trick the bot into leaking the secret.
 2. **Defend** — add a layer that stops the leak.
 3. **Re-test & measure** — attack the defended version and record what holds.
-
----
-
-## How it works (architecture)
-
-```
-   You type a message
-          │
-          ▼
-   ┌──────────────┐     the secret password lives here
-   │  chatbot.py  │◄──── (system prompt)
-   │  (my code)   │
-   └──────┬───────┘
-          │  sends message + system prompt
-          ▼
-   ┌──────────────┐
-   │ Anthropic API│  ← the AI model generates a reply
-   │ (Claude)     │
-   └──────┬───────┘
-          │  reply comes back
-          ▼
-   ┌──────────────┐
-   │ OUTPUT FILTER│  ← my defense: block the reply if it contains the secret
-   └──────┬───────┘
-          │
-          ▼
-     Shown to user  (or [BLOCKED])
-```
-
-The API key is loaded from a local `.env` file that is **excluded from version control** via
-`.gitignore`, so the secret credential never enters the repository.
 
 ---
 
@@ -65,7 +43,7 @@ The bot leaked the secret — because the secret lived *inside* the instructions
 repeat. The attack contained no suspicious words like "password" or "secret," so it didn't
 pattern-match as an attack. **It asked for the *container*, not the *contents*.**
 
-*(Screenshot: `screenshots/leak.png`)*
+*(Screenshot: `images/leak.png`)*
 
 ---
 
@@ -85,7 +63,7 @@ else:
 
 Re-running the winning attack now returns `[BLOCKED]`.
 
-*(Screenshot: `screenshots/blocked.png`)*
+*(Screenshot: `images/blocked.png`)*
 
 ---
 
