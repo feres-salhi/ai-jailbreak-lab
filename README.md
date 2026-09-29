@@ -43,7 +43,7 @@ The bot leaked the secret — because the secret lived *inside* the instructions
 repeat. The attack contained no suspicious words like "password" or "secret," so it didn't
 pattern-match as an attack. **It asked for the *container*, not the *contents*.**
 
-*(Screenshot: `images/leak.png`)*
+![Prompt-injection attack leaking the secret](images/leak.png)
 
 ---
 
@@ -63,7 +63,7 @@ else:
 
 Re-running the winning attack now returns `[BLOCKED]`.
 
-*(Screenshot: `images/blocked.png`)*
+![The output filter blocking the leak](images/blocked.png)
 
 ---
 
